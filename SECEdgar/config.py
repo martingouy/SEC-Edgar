@@ -4,5 +4,4 @@
 import logging
 import os
 
-DEFAULT_DATA_PATH = os.path.abspath(os.path.join(
-    os.path.dirname(__file__), '..', 'SEC-Edgar-Data'))
+DEFAULT_DATA_PATH = os.path.join(os.path.dirname(os.path.abspath('__file__')), 'downloads-10K/')
