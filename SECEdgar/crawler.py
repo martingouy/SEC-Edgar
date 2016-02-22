@@ -50,7 +50,7 @@ class SecCrawler():
         data = r.text
 
         # get doc list data
-        doc_list, doc_name_list = self.create_document_list(data)
+        doc_list, doc_name_list = self.create_document_list(data, count)
 
         try:
             self.save_in_directory(company_code, doc_list, doc_name_list)
@@ -59,7 +59,7 @@ class SecCrawler():
 
         print "Successfully downloaded all the files"
 
-    def create_document_list(self, data):
+    def create_document_list(self, data, count):
         # parse fetched data using beatifulsoup
         soup = BeautifulSoup(data)
         # store the link in the list
