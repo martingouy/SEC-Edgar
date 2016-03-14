@@ -32,7 +32,7 @@ class SecCrawler():
             base_url = doc_list[j]
             r = requests.get(base_url)
             data = r.text
-            path = os.path.join(DEFAULT_DATA_PATH, doc_name_list[j])
+            path = os.path.join(DEFAULT_DATA_PATH,company_code+"_"+doc_name_list[j])
 
             with open(path, "a+") as f:
                 f.write(data.encode('ascii', 'ignore'))
@@ -64,7 +64,8 @@ class SecCrawler():
         soup = BeautifulSoup(data)
         # store the link in the list
         link_list = list()
-
+        # store the date in the list
+        date_list = list()
         # If the link is .htm convert it to .html
         for link in soup.find_all('filinghref')[: count - 1]:
             url = link.string
@@ -72,6 +73,13 @@ class SecCrawler():
                 url += "l"
             link_list.append(url)
         link_list_final = link_list
+        print len(link_list_final)
+
+        for date in soup.find_all('datefiled')[: count - 1]:
+            realdate = date.text
+            date_list.append(realdate)
+        date_list_final = date_list
+        print len(date_list_final)
 
         print ("Number of files to download {0}".format(len(link_list_final)))
         print ("Starting download....")
@@ -85,7 +93,7 @@ class SecCrawler():
         for k in range(len(link_list_final)):
             required_url = link_list_final[k].replace('-index.html', '')
             txtdoc = required_url + ".txt"
-            docname = txtdoc.split("/")[-1]
+            docname = date_list_final[k]
             doc_list.append(txtdoc)
             doc_name_list.append(docname)
         return doc_list, doc_name_list
